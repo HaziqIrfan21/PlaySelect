@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\cprocessing">
+      <UniqueIdentifier>{93edd224-de70-456c-b211-ad1e789d2a8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PSG">
+      <UniqueIdentifier>{1c086019-81da-443f-9f0b-16593e43d201}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\PSG">
+      <UniqueIdentifier>{b9721c2e-2af6-400f-9add-a82eb6824e1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SplashScreen">
+      <UniqueIdentifier>{5195e5da-e4e5-4707-814f-2a2faed7dbc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SplashScreen">
+      <UniqueIdentifier>{b3d44ce4-f581-4340-af79-4ca40ffaab03}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PSG\game.c">
+      <Filter>Source Files\PSG</Filter>
+    </ClCompile>
+    <ClCompile Include="PSG\main.c">
+      <Filter>Source Files\PSG</Filter>
+    </ClCompile>
+    <ClCompile Include="PSG\mainmenu.c">
+      <Filter>Source Files\PSG</Filter>
+    </ClCompile>
+    <ClCompile Include="PSG\utils.c">
+      <Filter>Source Files\PSG</Filter>
+    </ClCompile>
+    <ClCompile Include="splashscreen.c">
+      <Filter>Source Files\SplashScreen</Filter>
+    </ClCompile>
+    <ClCompile Include="SplashScreenMain.c">
+      <Filter>Source Files\SplashScreen</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Extern\CProcessing\inc\cprocessing.h">
+      <Filter>Header Files\cprocessing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\CProcessing\inc\cprocessing_common.h">
+      <Filter>Header Files\cprocessing</Filter>
+    </ClInclude>
+    <ClInclude Include="PSG\game.h">
+      <Filter>Header Files\PSG</Filter>
+    </ClInclude>
+    <ClInclude Include="PSG\mainmenu.h">
+      <Filter>Header Files\PSG</Filter>
+    </ClInclude>
+    <ClInclude Include="PSG\utils.h">
+      <Filter>Header Files\PSG</Filter>
+    </ClInclude>
+    <ClInclude Include="splashscreen.h">
+      <Filter>Header Files\SplashScreen</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
