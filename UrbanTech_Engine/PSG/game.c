@@ -149,7 +149,7 @@ void Draw_Players(void)
 
 void Set_Player(void)
 {
-	if (IsCircleClicked(red.circleX, red.circleY, red.circleD, CP_Input_GetMouseX(), CP_Input_GetMouseY()) == 1)
+	if (IsCircleClicked(red.circleX+red.velocityX, red.circleY + red.velocityY, red.circleD, CP_Input_GetMouseX(), CP_Input_GetMouseY()) == 1)
 	{
 		red.isActive = 1;
 		green.isActive = 0;
@@ -157,14 +157,14 @@ void Set_Player(void)
 
 	}
 
-	if (IsCircleClicked(green.circleX, green.circleY, green.circleD, CP_Input_GetMouseX(), CP_Input_GetMouseY()) == 1)
+	if (IsCircleClicked(green.circleX + green.velocityX, green.circleY + green.velocityY, green.circleD, CP_Input_GetMouseX(), CP_Input_GetMouseY()) == 1)
 	{
 		red.isActive = 0;
 		green.isActive = 1;
 		blue.isActive = 0;
 	}
 
-	if (IsCircleClicked(blue.circleX, blue.circleY, blue.circleD, CP_Input_GetMouseX(), CP_Input_GetMouseY()) == 1)
+	if (IsCircleClicked(blue.circleX + blue.velocityX, blue.circleY + blue.velocityY, blue.circleD, CP_Input_GetMouseX(), CP_Input_GetMouseY()) == 1)
 	{
 		red.isActive = 0;
 		green.isActive = 0;
