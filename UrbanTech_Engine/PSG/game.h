@@ -7,3 +7,8 @@ void Game_Update(void);
 void Game_Exit(void);
 
 void Draw_Players(void);
+
+
+void Player_Controls(void);
+
+void Set_Player(void);
