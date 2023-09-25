@@ -68,5 +68,8 @@
     <ClInclude Include="splashscreen.h">
       <Filter>Header Files\SplashScreen</Filter>
     </ClInclude>
+    <ClInclude Include="main.h">
+      <Filter>Header Files\PSG</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -163,6 +163,7 @@ xcopy "$(SolutionDir)Extern\CProcessing\lib\x64\fmod.dll" "$(OutDir)" /s /r /y /
   <ItemGroup>
     <ClInclude Include="..\Extern\CProcessing\inc\cprocessing.h" />
     <ClInclude Include="..\Extern\CProcessing\inc\cprocessing_common.h" />
+    <ClInclude Include="main.h" />
     <ClInclude Include="PSG\game.h" />
     <ClInclude Include="PSG\mainmenu.h" />
     <ClInclude Include="PSG\utils.h" />
