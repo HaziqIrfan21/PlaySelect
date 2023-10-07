@@ -27,6 +27,8 @@ struct Players
 	float velocityY;
 
 	int isActive;
+
+	int direction;
 	
 };
 
@@ -52,8 +54,12 @@ void Game_Update(void)
 		CP_Engine_SetNextGameState(Main_Menu_Init, Main_Menu_Update, Main_Menu_Exit);
 	}
 	Set_Player();
-	Player_Controls();
+	//Player_Controls();
+	Agent_Auto_Controls();
+	Check_Wall_Collision();
 	Draw_Players();
+
+
 }
 
 void Game_Exit(void)
@@ -147,6 +153,7 @@ void Draw_Players(void)
 	
 }
 
+
 void Set_Player(void)
 {
 	if (IsCircleClicked(red.circleX+red.velocityX, red.circleY + red.velocityY, red.circleD, CP_Input_GetMouseX(), CP_Input_GetMouseY()) == 1)
@@ -171,12 +178,29 @@ void Set_Player(void)
 		blue.isActive = 1;
 
 	}
+
+	
+}
+
+void Check_Wall_Collision()
+{
+	//Check for wall collision
+	if (red.circleX + red.velocityX > CP_System_GetWindowWidth())
+	{
+		red.direction = 4;
+	}
+
+
+
+	//Check for circle collision
+	if (AreCirclesIntersecting(red.circleX + red.velocityX, red.circleY + red.velocityY, red.circleD / 2, green.circleX + green.velocityX, green.circleY + green.velocityY, green.width / 2))
+	{
+		green.direction = 4;
+	}
 }
 
 void Player_Controls(void)
 {
-
-	
 
 	 if (red.isActive == 1 && green.isActive == 0 && blue.isActive == 0)
 	 {
@@ -287,5 +311,231 @@ void Player_Controls(void)
 		 }
 
 	 }
+
+
+}
+
+int return_Direction()
+{
+
+	int direction_W = 0;
+	int direction_A = 0;
+	int direction_S = 0;
+	int direction_D = 0;
+
+	if (CP_Input_KeyTriggered(KEY_S))
+	{
+		int direction_S = 1;
+	}
+}
+
+void Agent_Auto_Controls(void)
+{
+	
+
+	//red.velocityX += 50 * CP_System_GetDt();
+	//red.rotation = 90;
+	//green.velocityX += 50 * CP_System_GetDt();
+	//green.rotation = 90;
+	//blue.velocityX += 50 * CP_System_GetDt();
+	//blue.rotation = 90;
+	//CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
+
+	//Default move to left at init
+	if (red.direction == 0)
+	{
+		red.velocityX += 500 * CP_System_GetDt();
+		red.rotation = 90;
+		// Set the background color to green and erase anything that was previously drawn
+		CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
+	}
+
+	if (green.direction == 0)
+	{
+		green.velocityX += 500 * CP_System_GetDt();
+		green.rotation = 90;
+		// Set the background color to green and erase anything that was previously drawn
+		CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
+	}
+
+	if (blue.direction == 0)
+	{
+		blue.velocityX += 500 * CP_System_GetDt();
+		blue.rotation = 90;
+		// Set the background color to green and erase anything that was previously drawn
+		CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
+	}
+
+	if (red.isActive == 1 && green.isActive == 0 && blue.isActive == 0)
+	{
+		if (CP_Input_KeyTriggered(KEY_W))
+		{
+			red.direction = 8;
+		}
+
+		if (CP_Input_KeyTriggered(KEY_S))
+		{
+			red.direction = 2;
+		}
+
+		if (CP_Input_KeyTriggered(KEY_D))
+		{
+			red.direction = 6;
+		}
+
+		if (CP_Input_KeyTriggered(KEY_A))
+		{
+			red.direction = 4;
+		}
+			//---//
+
+	}
+
+	if (red.direction == 8)
+	{
+		red.velocityY -= 500 * CP_System_GetDt();
+		red.rotation = 0;
+
+		// Set the background color to green and erase anything that was previously drawn
+		CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
+	}
+
+	if (red.direction == 2)
+	{
+		red.velocityY += 500 * CP_System_GetDt();
+		red.rotation = 180;
+		// Set the background color to green and erase anything that was previously drawn
+		CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
+	}
+
+	if (red.direction == 6)
+	{
+		red.velocityX += 500 * CP_System_GetDt();
+		red.rotation = 90;
+		// Set the background color to green and erase anything that was previously drawn
+		CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
+	}
+
+	if (red.direction == 4)
+	{
+		red.velocityX -= 500 * CP_System_GetDt();
+		red.rotation = 270;
+		// Set the background color to green and erase anything that was previously drawn
+		CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
+	}
+	if (red.isActive == 0 && green.isActive == 1 && blue.isActive == 0)
+	{
+		if (CP_Input_KeyTriggered(KEY_W))
+		{
+			green.direction = 8;
+		}
+
+		if (CP_Input_KeyTriggered(KEY_S))
+		{
+			green.direction = 2;
+		}
+
+		if (CP_Input_KeyTriggered(KEY_D))
+		{
+			green.direction = 6;
+		}
+
+		if (CP_Input_KeyTriggered(KEY_A))
+		{
+			green.direction = 4;
+		}
+		//---//
+
+	}
+
+	if (green.direction == 8)
+	{
+		green.velocityY -= 500 * CP_System_GetDt();
+		green.rotation = 0;
+
+		// Set the background color to green and erase anything that was previously drawn
+		CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
+	}
+
+	if (green.direction == 2)
+	{
+		green.velocityY += 500 * CP_System_GetDt();
+		green.rotation = 180;
+		// Set the background color to green and erase anything that was previously drawn
+		CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
+	}
+
+	if (green.direction == 6)
+	{
+		green.velocityX += 500 * CP_System_GetDt();
+		green.rotation = 90;
+		// Set the background color to green and erase anything that was previously drawn
+		CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
+	}
+
+	if (green.direction == 4)
+	{
+		green.velocityX -= 500 * CP_System_GetDt();
+		green.rotation = 270;
+		// Set the background color to green and erase anything that was previously drawn
+		CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
+	}
+
+	if (red.isActive == 0 && green.isActive == 0 && blue.isActive == 1)
+	{
+		if (CP_Input_KeyTriggered(KEY_W))
+		{
+			blue.direction = 8;
+		}
+
+		if (CP_Input_KeyTriggered(KEY_S))
+		{
+			blue.direction = 2;
+		}
+
+		if (CP_Input_KeyTriggered(KEY_D))
+		{
+			blue.direction = 6;
+		}
+
+		if (CP_Input_KeyTriggered(KEY_A))
+		{
+			blue.direction = 4;
+		}
+
+	}
+
+	if (blue.direction == 8)
+	{
+		blue.velocityY -= 500 * CP_System_GetDt();
+		blue.rotation = 0;
+
+		// Set the background color to green and erase anything that was previously drawn
+		CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
+	}
+
+	if (blue.direction == 2)
+	{
+		blue.velocityY += 500 * CP_System_GetDt();
+		blue.rotation = 180;
+		// Set the background color to green and erase anything that was previously drawn
+		CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
+	}
+
+	if (blue.direction == 6)
+	{
+		blue.velocityX += 500 * CP_System_GetDt();
+		blue.rotation = 90;
+		// Set the background color to green and erase anything that was previously drawn
+		CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
+	}
+
+	if (blue.direction == 4)
+	{
+		blue.velocityX -= 500 * CP_System_GetDt();
+		blue.rotation = 270;
+		// Set the background color to green and erase anything that was previously drawn
+		CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
+	}
 
 }
