@@ -16,4 +16,7 @@ void Set_Player(void);
 void Agent_Auto_Controls(void);
 
 void Check_Wall_Collision(void);
+void Check_Player_Agent_Collision(void);
+void Check_Agent_Agent_Collision(void);
+
 
