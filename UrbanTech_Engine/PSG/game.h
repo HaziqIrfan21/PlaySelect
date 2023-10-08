@@ -19,4 +19,5 @@ void Check_Wall_Collision(void);
 void Check_Player_Agent_Collision(void);
 void Check_Agent_Agent_Collision(void);
 void Check_Wall_Agent_Collision(void);
+void Collision_Check(void);
 

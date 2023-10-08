@@ -60,10 +60,11 @@ void Game_Update(void)
 
 	Draw_Players();
 
-	Check_Player_Agent_Collision();
-	Check_Agent_Agent_Collision();
-	Check_Wall_Collision();
+	//Check_Player_Agent_Collision();
+	//Check_Agent_Agent_Collision();
+	//Check_Wall_Collision();
 	//Check_Wall_Agent_Collision();
+	Collision_Check();
 }
 
 void Game_Exit(void)
@@ -184,6 +185,405 @@ void Set_Player(void)
 	}
 
 
+}
+
+void Collision_Check()
+{
+	//Check for red wall collision
+	if (red.circleX + red.velocityX > CP_System_GetWindowWidth() && red.direction !=2)
+	{
+		red.direction = 4;
+	}
+
+	if (red.circleX + red.velocityX < 0 && red.direction != 2)
+	{
+		red.direction = 6;
+	}
+	if (red.circleY + red.velocityY > CP_System_GetWindowHeight() && red.direction != 6)
+	{
+		red.direction = 8;
+	}
+	if (red.circleY + red.velocityY < 0 && red.direction !=6)
+	{
+		red.direction = 2;
+	}
+
+	//Check for green wall collision
+	if (green.circleX + green.velocityX > CP_System_GetWindowWidth() && green.direction != 2)
+	{
+		green.direction = 4;
+	}
+	if (green.circleX + green.velocityX < 0 && green.direction != 2)
+	{
+		green.direction = 6;
+	}
+	if (green.circleY + green.velocityY > CP_System_GetWindowHeight() && green.direction != 6)
+	{
+		green.direction = 8;
+	}
+	if (green.circleY + green.velocityY < 0 && green.direction != 6)
+	{
+		green.direction = 2;
+	}
+
+	//Check for blue wall collision
+	if (blue.circleX + blue.velocityX > CP_System_GetWindowWidth() && blue.direction != 2)
+	{
+		blue.direction = 4;
+	}
+	if (blue.circleX + blue.velocityX < 0 && blue.direction != 2)
+	{
+		blue.direction = 6;
+	}
+	if (blue.circleY + blue.velocityY > CP_System_GetWindowHeight() && blue.direction != 6)
+	{
+		blue.direction = 8;
+	}
+	if (blue.circleY + blue.velocityY < 0 && blue.direction != 6)
+	{
+		blue.direction = 2;
+	}
+
+	//Check for player agent
+	//Check for circle collision between red and green
+	if (AreCirclesIntersecting(red.circleX + red.velocityX, red.circleY + red.velocityY, red.circleD * 1.5, green.circleX + green.velocityX, green.circleY + green.velocityY, green.width ))
+	{
+		if (red.isActive == 1 && red.direction == 6)
+		{
+			green.direction = 6;
+
+		}
+
+		if (green.isActive == 1 && green.direction == 6)
+		{
+			red.direction = 6;
+
+		}
+
+		if (red.isActive == 1 && red.direction == 4)
+		{
+			green.direction = 4;
+
+		}
+
+		if (green.isActive == 1 && green.direction == 4)
+		{
+			red.direction = 4;
+
+		}
+
+		//Y direction
+
+		if (red.isActive == 1 && red.direction == 2)
+		{
+			green.direction = 2;
+
+		}
+		if (green.isActive == 1 && green.direction == 2)
+		{
+			red.direction = 2;
+
+		}
+
+		if (red.isActive == 1 && red.direction == 8)
+		{
+			green.direction = 8;
+
+		}
+		if (green.isActive == 1 && green.direction == 8)
+		{
+			red.direction = 8;
+
+		}
+
+
+
+	}
+
+	//Check for circle collision between red and blue
+	if (AreCirclesIntersecting(red.circleX + red.velocityX, red.circleY + red.velocityY, red.circleD * 1.5, blue.circleX + blue.velocityX, blue.circleY + blue.velocityY, blue.width * 1.5))
+	{
+		if (red.isActive == 1 && red.direction == 6)
+		{
+			blue.direction = 6;
+
+		}
+		if (blue.isActive == 1 && blue.direction == 6)
+		{
+			red.direction = 6;
+
+		}
+
+		if (red.isActive == 1 && red.direction == 4)
+		{
+			blue.direction = 4;
+
+		}
+		if (blue.isActive == 1 && blue.direction == 4)
+		{
+			red.direction = 4;
+
+		}
+
+		//Y direction
+
+		if (red.isActive == 1 && red.direction == 2)
+		{
+			blue.direction = 2;
+
+		}
+		if (blue.isActive == 1 && blue.direction == 2)
+		{
+			red.direction = 2;
+
+		}
+
+		if (red.isActive == 1 && red.direction == 8)
+		{
+			blue.direction = 8;
+
+		}
+		if (blue.isActive == 1 && blue.direction == 8)
+		{
+			red.direction = 8;
+
+		}
+
+	}
+
+	//Check for circle collision between green and blue
+	if (AreCirclesIntersecting(green.circleX + green.velocityX, green.circleY + green.velocityY, green.circleD * 1.5, blue.circleX + blue.velocityX, blue.circleY + blue.velocityY, blue.width * 1.5))
+	{
+		if (green.isActive == 1 && green.direction == 6)
+		{
+			blue.direction = 6;
+
+		}
+		if (blue.isActive == 1 && blue.direction == 6)
+		{
+			red.direction = 6;
+
+		}
+
+		if (green.isActive == 1 && green.direction == 4)
+		{
+			blue.direction = 4;
+
+		}
+		if (blue.isActive == 1 && blue.direction == 4)
+		{
+			green.direction = 4;
+
+		}
+
+		//Y direction
+
+		if (green.isActive == 1 && green.direction == 2)
+		{
+			blue.direction = 2;
+
+		}
+		if (blue.isActive == 1 && blue.direction == 2)
+		{
+			green.direction = 2;
+
+		}
+
+		if (green.isActive == 1 && green.direction == 8)
+		{
+			blue.direction = 8;
+
+		}
+		if (blue.isActive == 1 && blue.direction == 8)
+		{
+			green.direction = 8;
+
+		}
+
+	}
+
+	//agent-agent collision
+	//red and green agent collision
+	if (AreCirclesIntersecting(red.circleX + red.velocityX, red.circleY + red.velocityY, red.circleD * 1.5, green.circleX + green.velocityX, green.circleY + green.velocityY, green.width * 1.5))
+	{
+
+		//check left and right collision for agents
+		if ((red.isActive == 0 && red.direction == 4) && (green.isActive == 0 && green.direction == 6))
+		{
+			red.direction = 6;
+			green.direction = 4;
+
+		}
+
+		else if ((red.isActive == 0 && red.direction == 6) && (green.isActive == 0 && green.direction == 4))
+		{
+			red.direction = 4;
+			green.direction = 6;
+
+
+		}
+
+		//Check up and down for agent
+		//check left and right collision for agents
+		if ((red.isActive == 0 && red.direction == 8) && (green.isActive == 0 && green.direction == 2))
+		{
+			red.direction = 2;
+			green.direction = 8;
+
+		}
+
+		else if ((red.isActive == 0 && red.direction == 2) && (green.isActive == 0 && green.direction == 8))
+		{
+			red.direction = 8;
+			green.direction = 2;
+
+
+		}
+
+	}
+	//red and blue agent collision
+	if (AreCirclesIntersecting(red.circleX + red.velocityX, red.circleY + red.velocityY, red.circleD * 1.5, blue.circleX + blue.velocityX, blue.circleY + blue.velocityY, blue.width * 1.5))
+	{
+
+		//check left and right collision for agents
+		if ((red.isActive == 0 && red.direction == 4) && (blue.isActive == 0 && blue.direction == 6))
+		{
+			red.direction = 6;
+			blue.direction = 4;
+
+		}
+
+		else if ((red.isActive == 0 && red.direction == 6) && (blue.isActive == 0 && blue.direction == 4))
+		{
+			red.direction = 4;
+			blue.direction = 6;
+
+
+		}
+
+		//Check up and down for agent
+		//check left and right collision for agents
+		if ((red.isActive == 0 && red.direction == 8) && (blue.isActive == 0 && blue.direction == 2))
+		{
+			red.direction = 2;
+			blue.direction = 8;
+
+		}
+
+		else if ((red.isActive == 0 && red.direction == 2) && (blue.isActive == 0 && blue.direction == 8))
+		{
+			red.direction = 8;
+			blue.direction = 2;
+
+
+		}
+
+	}
+
+	//green and blue agent collision
+	if (AreCirclesIntersecting(green.circleX + green.velocityX, green.circleY + green.velocityY, green.circleD * 1.5, blue.circleX + blue.velocityX, blue.circleY + blue.velocityY, blue.width * 1.5))
+	{
+
+		//check left and right collision for agents
+		if ((green.isActive == 0 && green.direction == 4) && (blue.isActive == 0 && blue.direction == 6))
+		{
+			green.direction = 6;
+			blue.direction = 4;
+
+		}
+
+		else if ((green.isActive == 0 && green.direction == 6) && (blue.isActive == 0 && blue.direction == 4))
+		{
+			green.direction = 4;
+			blue.direction = 6;
+
+
+		}
+
+		//Check up and down for agent
+		//check left and right collision for agents
+		if ((green.isActive == 0 && green.direction == 8) && (blue.isActive == 0 && blue.direction == 2))
+		{
+			green.direction = 2;
+			blue.direction = 8;
+
+		}
+
+		else if ((green.isActive == 0 && green.direction == 2) && (blue.isActive == 0 && blue.direction == 8))
+		{
+			green.direction = 8;
+			blue.direction = 2;
+
+
+		}
+
+	}
+
+
+	////check for wall and circle
+	//red
+	if (red.circleX + red.velocityX > CP_System_GetWindowWidth() && (AreCirclesIntersecting(red.circleX + red.velocityX, red.circleY + red.velocityY, red.circleD * 1.5, green.circleX + green.velocityX, green.circleY + green.velocityY, green.width * 1.5) || AreCirclesIntersecting(red.circleX + red.velocityX, red.circleY + red.velocityY, red.circleD * 1.5, blue.circleX + blue.velocityX, blue.circleY + blue.velocityY, blue.width * 1.5)))
+	{
+		red.direction = 2;
+	}
+
+	if (red.circleX + red.velocityX <  0 && (AreCirclesIntersecting(red.circleX + red.velocityX, red.circleY + red.velocityY, red.circleD * 1.5, green.circleX + green.velocityX, green.circleY + green.velocityY, green.width * 1.5) || AreCirclesIntersecting(red.circleX + red.velocityX, red.circleY + red.velocityY, red.circleD * 1.5, blue.circleX + blue.velocityX, blue.circleY + blue.velocityY, blue.width * 1.5)))
+	{
+		red.direction = 2;
+	}
+
+	if (red.circleY + red.velocityY > CP_System_GetWindowHeight() && (AreCirclesIntersecting(red.circleX + red.velocityX, red.circleY + red.velocityY, red.circleD * 1.5, green.circleX + green.velocityX, green.circleY + green.velocityY, green.width * 1.5) || AreCirclesIntersecting(red.circleX + red.velocityX, red.circleY + red.velocityY, red.circleD * 1.5, blue.circleX + blue.velocityX, blue.circleY + blue.velocityY, blue.width * 1.5)))
+	{
+		red.direction = 6;
+	}
+
+	if (red.circleY + red.velocityY < 0 && (AreCirclesIntersecting(red.circleX + red.velocityX, red.circleY + red.velocityY, red.circleD * 1.5, green.circleX + green.velocityX, green.circleY + green.velocityY, green.width * 1.5) || AreCirclesIntersecting(red.circleX + red.velocityX, red.circleY + red.velocityY, red.circleD * 1.5, blue.circleX + blue.velocityX, blue.circleY + blue.velocityY, blue.width * 1.5)))
+	{
+		red.direction = 6;
+	}
+	
+	//green
+	if (green.circleX + green.velocityX > CP_System_GetWindowWidth() && (AreCirclesIntersecting(green.circleX + green.velocityX, green.circleY + green.velocityY, green.circleD * 1.5, red.circleX + red.velocityX, red.circleY + red.velocityY, red.width * 1.5) || AreCirclesIntersecting(green.circleX + green.velocityX, green.circleY + green.velocityY, green.circleD * 1.5, blue.circleX + blue.velocityX, blue.circleY + blue.velocityY, blue.width * 1.5)))
+	{
+		green.direction = 2;
+	}
+
+	if (green.circleX + green.velocityX < 0 && (AreCirclesIntersecting(green.circleX + green.velocityX, green.circleY + green.velocityY, green.circleD * 1.5, red.circleX + red.velocityX, red.circleY + red.velocityY, red.width * 1.5) || AreCirclesIntersecting(green.circleX + green.velocityX, green.circleY + green.velocityY, green.circleD * 1.5, blue.circleX + blue.velocityX, blue.circleY + blue.velocityY, blue.width * 1.5)))
+	{
+		green.direction = 2;
+	}
+
+	if (green.circleY + green.velocityY > CP_System_GetWindowHeight() && (AreCirclesIntersecting(green.circleX + green.velocityX, green.circleY + green.velocityY, green.circleD * 1.5, red.circleX + red.velocityX, red.circleY + red.velocityY, red.width * 1.5) || AreCirclesIntersecting(green.circleX + green.velocityX, green.circleY + green.velocityY, green.circleD * 1.5, blue.circleX + blue.velocityX, blue.circleY + blue.velocityY, blue.width * 1.5)))
+	{
+		green.direction = 6;
+	}
+
+	if (green.circleY + green.velocityY < 0 && (AreCirclesIntersecting(green.circleX + green.velocityX, green.circleY + green.velocityY, green.circleD * 1.5, red.circleX + red.velocityX, red.circleY + red.velocityY, red.width * 1.5) || AreCirclesIntersecting(green.circleX + green.velocityX, green.circleY + green.velocityY, green.circleD * 1.5, blue.circleX + blue.velocityX, blue.circleY + blue.velocityY, blue.width * 1.5)))
+	{
+		green.direction = 6;
+	}
+
+
+	//blue
+	if (blue.circleX + blue.velocityX > CP_System_GetWindowWidth() && (AreCirclesIntersecting(blue.circleX + blue.velocityX, blue.circleY + blue.velocityY, blue.circleD * 1.5, red.circleX + red.velocityX, red.circleY + red.velocityY, red.width * 1.5) || AreCirclesIntersecting(blue.circleX + blue.velocityX, blue.circleY + blue.velocityY, blue.circleD * 1.5, green.circleX + green.velocityX, green.circleY + green.velocityY, green.width * 1.5)))
+	{
+		green.direction = 2;
+	}
+
+	if (blue.circleX + blue.velocityX < 0 && (AreCirclesIntersecting(blue.circleX + blue.velocityX, blue.circleY + blue.velocityY, blue.circleD * 1.5, red.circleX + red.velocityX, red.circleY + red.velocityY, red.width * 1.5) || AreCirclesIntersecting(blue.circleX + blue.velocityX, blue.circleY + blue.velocityY, blue.circleD * 1.5, green.circleX + green.velocityX, green.circleY + green.velocityY, green.width * 1.5)))
+	{
+		blue.direction = 2;
+	}
+
+	if (blue.circleY + blue.velocityY > CP_System_GetWindowHeight() && (AreCirclesIntersecting(blue.circleX + blue.velocityX, blue.circleY + blue.velocityY, blue.circleD * 1.5, red.circleX + red.velocityX, red.circleY + red.velocityY, red.width * 1.5) || AreCirclesIntersecting(blue.circleX + blue.velocityX, blue.circleY + blue.velocityY, blue.circleD * 1.5, green.circleX + green.velocityX, green.circleY + green.velocityY, green.width * 1.5)))
+	{
+		green.direction = 6;
+	}
+
+	if (blue.circleY + blue.velocityY < 0 && (AreCirclesIntersecting(blue.circleX + blue.velocityX, blue.circleY + blue.velocityY, blue.circleD * 1.5, red.circleX + red.velocityX, red.circleY + red.velocityY, red.width * 1.5) || AreCirclesIntersecting(blue.circleX + blue.velocityX, blue.circleY + blue.velocityY, blue.circleD * 1.5, green.circleX + green.velocityX, green.circleY + green.velocityY, green.width * 1.5)))
+	{
+		blue.direction = 6;
+	}
 }
 
 void Check_Agent_Agent_Collision()
