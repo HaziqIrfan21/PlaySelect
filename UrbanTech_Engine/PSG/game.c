@@ -29,7 +29,7 @@ struct Players
 	int isActive;
 
 	int direction;
-	
+
 };
 
 struct Players red;
@@ -48,8 +48,8 @@ void Game_Init(void)
 
 void Game_Update(void)
 {
-	
-	
+
+
 	if (CP_Input_KeyDown(KEY_Q))
 	{
 		CP_Engine_SetNextGameState(Main_Menu_Init, Main_Menu_Update, Main_Menu_Exit);
@@ -57,13 +57,13 @@ void Game_Update(void)
 	Set_Player();
 	//Player_Controls();
 	Agent_Auto_Controls();
-	
+
 	Draw_Players();
-	Check_Wall_Collision();
+
 	Check_Player_Agent_Collision();
 	Check_Agent_Agent_Collision();
-
-
+	Check_Wall_Collision();
+	//Check_Wall_Agent_Collision();
 }
 
 void Game_Exit(void)
@@ -89,17 +89,17 @@ void Draw_Players(void)
 	red.circleY = 100;
 	red.circleD = 70.0f;
 
-	 red.triangleX1 = 100.0f;
-	 red.triangleY1 = 70.0f;
-	 red.triangleX2 = 125.0f;
-	 red.triangleY2 = 120.0f;
-	 red.triangleX3 = 75.0f;
-	 red.triangleY3 = 120.0f;
+	red.triangleX1 = 100.0f;
+	red.triangleY1 = 70.0f;
+	red.triangleX2 = 125.0f;
+	red.triangleY2 = 120.0f;
+	red.triangleX3 = 75.0f;
+	red.triangleY3 = 120.0f;
 
-	 //red.rotation = 0.0f;
+	//red.rotation = 0.0f;
 
 
-	//Red circle
+   //Red circle
 	CP_Graphics_DrawCircle(red.circleX + red.velocityX, red.circleY + red.velocityY, red.circleD);
 
 	// set the fill color to white
@@ -154,13 +154,13 @@ void Draw_Players(void)
 
 	CP_Graphics_DrawTriangleAdvanced(blue.triangleX1 + blue.velocityX, blue.triangleY1 + blue.velocityY, blue.triangleX2 + blue.velocityX, blue.triangleY2 + blue.velocityY, blue.triangleX3 + blue.velocityX, blue.triangleY3 + blue.velocityY, 1 * blue.rotation);
 
-	
+
 }
 
 
 void Set_Player(void)
 {
-	if (IsCircleClicked(red.circleX+red.velocityX, red.circleY + red.velocityY, red.circleD, CP_Input_GetMouseX(), CP_Input_GetMouseY()) == 1)
+	if (IsCircleClicked(red.circleX + red.velocityX, red.circleY + red.velocityY, red.circleD, CP_Input_GetMouseX(), CP_Input_GetMouseY()) == 1)
 	{
 		red.isActive = 1;
 		green.isActive = 0;
@@ -183,20 +183,15 @@ void Set_Player(void)
 
 	}
 
-	
+
 }
 
 void Check_Agent_Agent_Collision()
 {
+	//red and green agent collision
 	if (AreCirclesIntersecting(red.circleX + red.velocityX, red.circleY + red.velocityY, red.circleD * 1.5, green.circleX + green.velocityX, green.circleY + green.velocityY, green.width * 1.5))
 	{
-		if ((red.isActive == 0 && red.direction == 6) && (green.isActive == 0 && green.direction == 4))
-		{
-			red.direction = 4;
-			green.direction = 6;
 
-
-		}
 		//check left and right collision for agents
 		if ((red.isActive == 0 && red.direction == 4) && (green.isActive == 0 && green.direction == 6))
 		{
@@ -204,6 +199,109 @@ void Check_Agent_Agent_Collision()
 			green.direction = 4;
 
 		}
+
+		else if ((red.isActive == 0 && red.direction == 6) && (green.isActive == 0 && green.direction == 4))
+		{
+			red.direction = 4;
+			green.direction = 6;
+
+
+		}
+
+		//Check up and down for agent
+		//check left and right collision for agents
+		if ((red.isActive == 0 && red.direction == 8) && (green.isActive == 0 && green.direction == 2))
+		{
+			red.direction = 2;
+			green.direction = 8;
+
+		}
+
+		else if ((red.isActive == 0 && red.direction == 2) && (green.isActive == 0 && green.direction == 8))
+		{
+			red.direction = 8;
+			green.direction = 2;
+
+
+		}
+
+	}
+	//red and blue agent collision
+	if (AreCirclesIntersecting(red.circleX + red.velocityX, red.circleY + red.velocityY, red.circleD * 1.5, blue.circleX + blue.velocityX, blue.circleY + blue.velocityY, blue.width * 1.5))
+	{
+
+		//check left and right collision for agents
+		if ((red.isActive == 0 && red.direction == 4) && (blue.isActive == 0 && blue.direction == 6))
+		{
+			red.direction = 6;
+			blue.direction = 4;
+
+		}
+
+		else if ((red.isActive == 0 && red.direction == 6) && (blue.isActive == 0 && blue.direction == 4))
+		{
+			red.direction = 4;
+			blue.direction = 6;
+
+
+		}
+
+		//Check up and down for agent
+		//check left and right collision for agents
+		if ((red.isActive == 0 && red.direction == 8) && (blue.isActive == 0 && blue.direction == 2))
+		{
+			red.direction = 2;
+			blue.direction = 8;
+
+		}
+
+		else if ((red.isActive == 0 && red.direction == 2) && (blue.isActive == 0 && blue.direction == 8))
+		{
+			red.direction = 8;
+			blue.direction = 2;
+
+
+		}
+
+	}
+
+	//green and blue agent collision
+	if (AreCirclesIntersecting(green.circleX + green.velocityX, green.circleY + green.velocityY, green.circleD * 1.5, blue.circleX + blue.velocityX, blue.circleY + blue.velocityY, blue.width * 1.5))
+	{
+
+		//check left and right collision for agents
+		if ((green.isActive == 0 && green.direction == 4) && (blue.isActive == 0 && blue.direction == 6))
+		{
+			green.direction = 6;
+			blue.direction = 4;
+
+		}
+
+		else if ((green.isActive == 0 && green.direction == 6) && (blue.isActive == 0 && blue.direction == 4))
+		{
+			green.direction = 4;
+			blue.direction = 6;
+
+
+		}
+
+		//Check up and down for agent
+		//check left and right collision for agents
+		if ((green.isActive == 0 && green.direction == 8) && (blue.isActive == 0 && blue.direction == 2))
+		{
+			green.direction = 2;
+			blue.direction = 8;
+
+		}
+
+		else if ((green.isActive == 0 && green.direction == 2) && (blue.isActive == 0 && blue.direction == 8))
+		{
+			green.direction = 8;
+			blue.direction = 2;
+
+
+		}
+
 	}
 }
 
@@ -237,52 +335,54 @@ void Check_Player_Agent_Collision()
 
 		}
 
-		if (red.isActive == 1 && red.direction == 2 || red.isActive == 0 && red.direction == 2)
+		//Y direction
+
+		if (red.isActive == 1 && red.direction == 2)
 		{
 			green.direction = 2;
 
 		}
-		if (green.isActive == 1 && green.direction == 2 || green.isActive == 0 && green.direction == 2)
+		if (green.isActive == 1 && green.direction == 2)
 		{
 			red.direction = 2;
 
 		}
 
-		if (red.isActive == 1 && red.direction == 8 || red.isActive == 0 && red.direction == 8)
+		if (red.isActive == 1 && red.direction == 8)
 		{
 			green.direction = 8;
 
 		}
-		if (green.isActive == 1 && green.direction == 8 || green.isActive == 0 && green.direction == 8)
+		if (green.isActive == 1 && green.direction == 8)
 		{
 			red.direction = 8;
 
 		}
 
-		
+
 
 	}
 
 	//Check for circle collision between red and blue
 	if (AreCirclesIntersecting(red.circleX + red.velocityX, red.circleY + red.velocityY, red.circleD * 1.5, blue.circleX + blue.velocityX, blue.circleY + blue.velocityY, blue.width * 1.5))
 	{
-		if (red.isActive == 1 && red.direction == 6 || red.isActive == 0 && red.direction == 6)
+		if (red.isActive == 1 && red.direction == 6)
 		{
 			blue.direction = 6;
 
 		}
-		if (blue.isActive == 1 && blue.direction == 6 || blue.isActive == 0 && blue.direction == 6)
+		if (blue.isActive == 1 && blue.direction == 6)
 		{
 			red.direction = 6;
 
 		}
 
-		if (red.isActive == 1 && red.direction == 4 || red.isActive == 0 && red.direction == 4)
+		if (red.isActive == 1 && red.direction == 4)
 		{
 			blue.direction = 4;
 
 		}
-		if (blue.isActive == 1 && blue.direction == 4 || blue.isActive == 0 && blue.direction == 4)
+		if (blue.isActive == 1 && blue.direction == 4)
 		{
 			red.direction = 4;
 
@@ -290,23 +390,23 @@ void Check_Player_Agent_Collision()
 
 		//Y direction
 
-		if (red.isActive == 1 && red.direction == 2 || red.isActive == 0 && red.direction == 2)
+		if (red.isActive == 1 && red.direction == 2)
 		{
 			blue.direction = 2;
 
 		}
-		if (blue.isActive == 1 && blue.direction == 2 || blue.isActive == 0 && blue.direction == 2)
+		if (blue.isActive == 1 && blue.direction == 2)
 		{
 			red.direction = 2;
 
 		}
 
-		if (red.isActive == 1 && red.direction == 8 || red.isActive == 0 && red.direction == 8)
+		if (red.isActive == 1 && red.direction == 8)
 		{
 			blue.direction = 8;
 
 		}
-		if (blue.isActive == 1 && blue.direction == 8 || blue.isActive == 0 && blue.direction == 8)
+		if (blue.isActive == 1 && blue.direction == 8)
 		{
 			red.direction = 8;
 
@@ -365,34 +465,18 @@ void Check_Player_Agent_Collision()
 
 	}
 
-	////check for wall and circle
 
-	//if (red.circleX + red.velocityX > CP_System_GetWindowWidth() && (AreCirclesIntersecting(red.circleX + red.velocityX, red.circleY + red.velocityY, red.circleD * 1.5, green.circleX + green.velocityX, green.circleY + green.velocityY, green.width * 1.5) || AreCirclesIntersecting(red.circleX + red.velocityX, red.circleY + red.velocityY, red.circleD * 1.5, blue.circleX + blue.velocityX, blue.circleY + blue.velocityY, blue.width * 1.5)))
-	//{
-	//	red.direction = 2;
-	//}
-	//if (red.circleX + red.velocityX < 0)
-	//{
-	//	red.direction = 6;
-	//}
-	//if (red.circleY + red.velocityY > CP_System_GetWindowHeight())
-	//{
-	//	red.direction = 8;
-	//}
-	//if (red.circleY + red.velocityY < 0)
-	//{
-	//	red.direction = 2;
-	//}
 }
 
 void Check_Wall_Collision()
 {
-	
+
 	//Check for red wall collision
-	if (red.circleX + red.velocityX > CP_System_GetWindowWidth())
+	if (red.circleX + red.velocityX > CP_System_GetWindowWidth() && !(AreCirclesIntersecting(red.circleX + red.velocityX, red.circleY + red.velocityY, red.circleD * 1.5, green.circleX + green.velocityX, green.circleY + green.velocityY, green.width * 1.5)))
 	{
 		red.direction = 4;
 	}
+
 	if (red.circleX + red.velocityX < 0)
 	{
 		red.direction = 6;
@@ -442,123 +526,153 @@ void Check_Wall_Collision()
 		blue.direction = 2;
 	}
 
+	////check for wall and circle
 
 
+
+	//if (red.circleX + red.velocityX < 0 && (AreCirclesIntersecting(red.circleX + red.velocityX, red.circleY + red.velocityY, red.circleD * 1.5, green.circleX + green.velocityX, green.circleY + green.velocityY, green.width * 1.5) || AreCirclesIntersecting(red.circleX + red.velocityX, red.circleY + red.velocityY, red.circleD * 1.5, blue.circleX + blue.velocityX, blue.circleY + blue.velocityY, blue.width * 1.5)))
+	//{
+	//	red.direction = 2;
+	//}
+	//if (red.circleX + red.velocityX > CP_System_GetWindowHeight() && (AreCirclesIntersecting(red.circleX + red.velocityX, red.circleY + red.velocityY, red.circleD * 1.5, green.circleX + green.velocityX, green.circleY + green.velocityY, green.width * 1.5) || AreCirclesIntersecting(red.circleX + red.velocityX, red.circleY + red.velocityY, red.circleD * 1.5, blue.circleX + blue.velocityX, blue.circleY + blue.velocityY, blue.width * 1.5)))
+	//{
+	//	red.direction = 6;
+	//}
+	//if (red.circleX + red.velocityX < 0 && (AreCirclesIntersecting(red.circleX + red.velocityX, red.circleY + red.velocityY, red.circleD * 1.5, green.circleX + green.velocityX, green.circleY + green.velocityY, green.width * 1.5) || AreCirclesIntersecting(red.circleX + red.velocityX, red.circleY + red.velocityY, red.circleD * 1.5, blue.circleX + blue.velocityX, blue.circleY + blue.velocityY, blue.width * 1.5)))
+	//{
+	//	red.direction = 6;
+	//}
+
+}
+void Check_Wall_Agent_Collision(void)
+{
+	//if (red.circleX + red.velocityX < 0 && (AreCirclesIntersecting(red.circleX + red.velocityX, red.circleY + red.velocityY, red.circleD * 1.5, green.circleX + green.velocityX, green.circleY + green.velocityY, green.width * 1.5)))
+	//{
+	//	red.direction = 2;
+	//}
+	//if (red.circleX + red.velocityX > CP_System_GetWindowHeight() && (AreCirclesIntersecting(red.circleX + red.velocityX, red.circleY + red.velocityY, red.circleD * 1.5, green.circleX + green.velocityX, green.circleY + green.velocityY, green.width * 1.5) || AreCirclesIntersecting(red.circleX + red.velocityX, red.circleY + red.velocityY, red.circleD * 1.5, blue.circleX + blue.velocityX, blue.circleY + blue.velocityY, blue.width * 1.5)))
+	//{
+	//	red.direction = 6;
+	//}
+	//if (red.circleX + red.velocityX < 0 && (AreCirclesIntersecting(red.circleX + red.velocityX, red.circleY + red.velocityY, red.circleD * 1.5, green.circleX + green.velocityX, green.circleY + green.velocityY, green.width * 1.5) || AreCirclesIntersecting(red.circleX + red.velocityX, red.circleY + red.velocityY, red.circleD * 1.5, blue.circleX + blue.velocityX, blue.circleY + blue.velocityY, blue.width * 1.5)))
+	//{
+	//	red.direction = 6;
+	//}
 }
 
 
 void Player_Controls(void)
 {
 
-	 if (red.isActive == 1 && green.isActive == 0 && blue.isActive == 0)
-	 {
-		 if (CP_Input_KeyDown(KEY_W))
-		 {
-			 red.velocityY -= 500 * CP_System_GetDt();
-			 red.rotation = 0;
+	if (red.isActive == 1 && green.isActive == 0 && blue.isActive == 0)
+	{
+		if (CP_Input_KeyDown(KEY_W))
+		{
+			red.velocityY -= 500 * CP_System_GetDt();
+			red.rotation = 0;
 
-			 // Set the background color to green and erase anything that was previously drawn
-			 CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
-		 }
+			// Set the background color to green and erase anything that was previously drawn
+			CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
+		}
 
-		 if (CP_Input_KeyDown(KEY_S))
-		 {
-			 red.velocityY += 500 * CP_System_GetDt();
-			 red.rotation = 180;
-			 // Set the background color to green and erase anything that was previously drawn
-			 CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
-		 }
+		if (CP_Input_KeyDown(KEY_S))
+		{
+			red.velocityY += 500 * CP_System_GetDt();
+			red.rotation = 180;
+			// Set the background color to green and erase anything that was previously drawn
+			CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
+		}
 
-		 if (CP_Input_KeyDown(KEY_D))
-		 {
-			 red.velocityX += 500 * CP_System_GetDt();
-			 red.rotation = 90;
-			 // Set the background color to green and erase anything that was previously drawn
-			 CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
-		 }
+		if (CP_Input_KeyDown(KEY_D))
+		{
+			red.velocityX += 500 * CP_System_GetDt();
+			red.rotation = 90;
+			// Set the background color to green and erase anything that was previously drawn
+			CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
+		}
 
-		 if (CP_Input_KeyDown(KEY_A))
-		 {
-			 red.velocityX -= 500 * CP_System_GetDt();
-			 red.rotation = 270;
-			 // Set the background color to green and erase anything that was previously drawn
-			 CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
-		 }
+		if (CP_Input_KeyDown(KEY_A))
+		{
+			red.velocityX -= 500 * CP_System_GetDt();
+			red.rotation = 270;
+			// Set the background color to green and erase anything that was previously drawn
+			CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
+		}
 
-	 }
-	 if (red.isActive == 0 && green.isActive == 1 && blue.isActive == 0)
-	 {
-		 if (CP_Input_KeyDown(KEY_W))
-		 {
-			 green.velocityY -= 500 * CP_System_GetDt();
-			 green.rotation = 0;
+	}
+	if (red.isActive == 0 && green.isActive == 1 && blue.isActive == 0)
+	{
+		if (CP_Input_KeyDown(KEY_W))
+		{
+			green.velocityY -= 500 * CP_System_GetDt();
+			green.rotation = 0;
 
-			 // Set the background color to green and erase anything that was previously drawn
-			 CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
-		 }
+			// Set the background color to green and erase anything that was previously drawn
+			CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
+		}
 
-		 if (CP_Input_KeyDown(KEY_S))
-		 {
-			 green.velocityY += 500 * CP_System_GetDt();
-			 green.rotation = 180;
-			 // Set the background color to green and erase anything that was previously drawn
-			 CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
-		 }
+		if (CP_Input_KeyDown(KEY_S))
+		{
+			green.velocityY += 500 * CP_System_GetDt();
+			green.rotation = 180;
+			// Set the background color to green and erase anything that was previously drawn
+			CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
+		}
 
-		 if (CP_Input_KeyDown(KEY_D))
-		 {
-			 green.velocityX += 500 * CP_System_GetDt();
-			 green.rotation = 90;
-			 // Set the background color to green and erase anything that was previously drawn
-			 CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
-		 }
+		if (CP_Input_KeyDown(KEY_D))
+		{
+			green.velocityX += 500 * CP_System_GetDt();
+			green.rotation = 90;
+			// Set the background color to green and erase anything that was previously drawn
+			CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
+		}
 
-		 if (CP_Input_KeyDown(KEY_A))
-		 {
-			 green.velocityX -= 500 * CP_System_GetDt();
-			 green.rotation = 270;
-			 // Set the background color to green and erase anything that was previously drawn
-			 CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
-		 }
+		if (CP_Input_KeyDown(KEY_A))
+		{
+			green.velocityX -= 500 * CP_System_GetDt();
+			green.rotation = 270;
+			// Set the background color to green and erase anything that was previously drawn
+			CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
+		}
 
-	 }
+	}
 
-	 if (red.isActive == 0 && green.isActive == 0 && blue.isActive == 1)
-	 {
-		 if (CP_Input_KeyDown(KEY_W))
-		 {
-			 blue.velocityY -= 500 * CP_System_GetDt();
-			 blue.rotation = 0;
+	if (red.isActive == 0 && green.isActive == 0 && blue.isActive == 1)
+	{
+		if (CP_Input_KeyDown(KEY_W))
+		{
+			blue.velocityY -= 500 * CP_System_GetDt();
+			blue.rotation = 0;
 
-			 // Set the background color to green and erase anything that was previously drawn
-			 CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
-		 }
+			// Set the background color to green and erase anything that was previously drawn
+			CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
+		}
 
-		 if (CP_Input_KeyDown(KEY_S))
-		 {
-			 blue.velocityY += 500 * CP_System_GetDt();
-			 blue.rotation = 180;
-			 // Set the background color to green and erase anything that was previously drawn
-			 CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
-		 }
+		if (CP_Input_KeyDown(KEY_S))
+		{
+			blue.velocityY += 500 * CP_System_GetDt();
+			blue.rotation = 180;
+			// Set the background color to green and erase anything that was previously drawn
+			CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
+		}
 
-		 if (CP_Input_KeyDown(KEY_D))
-		 {
-			 blue.velocityX += 500 * CP_System_GetDt();
-			 blue.rotation = 90;
-			 // Set the background color to green and erase anything that was previously drawn
-			 CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
-		 }
+		if (CP_Input_KeyDown(KEY_D))
+		{
+			blue.velocityX += 500 * CP_System_GetDt();
+			blue.rotation = 90;
+			// Set the background color to green and erase anything that was previously drawn
+			CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
+		}
 
-		 if (CP_Input_KeyDown(KEY_A))
-		 {
-			 blue.velocityX -= 500 * CP_System_GetDt();
-			 blue.rotation = 270;
-			 // Set the background color to green and erase anything that was previously drawn
-			 CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
-		 }
+		if (CP_Input_KeyDown(KEY_A))
+		{
+			blue.velocityX -= 500 * CP_System_GetDt();
+			blue.rotation = 270;
+			// Set the background color to green and erase anything that was previously drawn
+			CP_Graphics_ClearBackground(CP_Color_Create(192, 192, 192, 255));
+		}
 
-	 }
+	}
 
 
 }
@@ -579,7 +693,7 @@ int return_Direction()
 
 void Agent_Auto_Controls(void)
 {
-	
+
 
 	//red.velocityX += 50 * CP_System_GetDt();
 	//red.rotation = 90;
@@ -610,7 +724,7 @@ void Agent_Auto_Controls(void)
 
 	if (blue.direction == 0)
 	{
-		green.direction = 6;
+		blue.direction = 6;
 		blue.velocityX += 250 * CP_System_GetDt();
 		blue.rotation = 90;
 		// Set the background color to green and erase anything that was previously drawn
@@ -638,7 +752,7 @@ void Agent_Auto_Controls(void)
 		{
 			red.direction = 4;
 		}
-			//---//
+		//---//
 
 	}
 
